@@ -1,7 +1,7 @@
 # Database Schema Inventory
 
-- **Server:** `77igns4c4tquvpkcugm4f6ldka-fwtjmerwp2aujjmgnbxi2symzq.datawarehouse.fabric.microsoft.com`
-- **Database:** `GoldLakehouse`
+- **Server:** ``
+- **Database:** ``
 - **Generated (UTC):** 2025-08-26T12:29:48Z
 - **Incomplete:** True
 
@@ -407,3 +407,4 @@
 | 15 | `facility_name` | `varchar` | 8000 | YES |  |  |  |  |
 | 16 | `account_code` | `smallint` | 2 | YES |  |  |  |  |
 | 17 | `claim_no` | `varchar` | 8000 | YES |  |  |  |  |
+
