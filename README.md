@@ -1,22 +1,19 @@
 # Datasonic Lakehouse Copilot
 
-This project provides a **Data Agent** built on top of a **Fabric Lakehouse**, enabling **natural language querying** for both business and technical users. By combining **SQLAlchemy**, **LangChain Agents**, and the **OpenAI API**, the solution allows users to ask questions in plain English and get meaningful SQL-driven answers from their data.
-
-Two versions of the application are included, with the same core functionality but differing in **UI chat history retention**.
+This repository provides multiple approaches for building a **Data Agent on top of a Fabric Lakehouse**, enabling **natural language querying** for both business and technical users. By combining **SQLAlchemy**, **LangChain Agents**, **OpenAI API**, and direct `pyodbc` calls, users can ask questions in plain English and get SQL-driven answers from their data.
 
 ---
 
 ## 🚀 Features
 
 * **Natural Language to SQL**: Query the Lakehouse without writing SQL manually.
-* **LangChain SQL Agent**: Uses LangChain’s agent toolkit to translate queries into SQL.
-* **SQLAlchemy Integration**: Provides reliable connections to SQL Server with `pyodbc`.
-* **Schema Extraction Tool**: Includes a `schema_extractor.py` utility to generate schema metadata (`JSON`, `Markdown`, and `CSV`).
-* **Streamlit UI**: Simple web interface for user interaction.
-* **Conversation History**:
+* **Two paradigms supported**:
 
-  * `SQL_Alchemy_Langchain_Approach.py` → Basic version, no persistent chat history.
-  * `sql_alchemy_v2.py` → Enhanced version with retained chat history for contextual conversations.
+  1. **LangChain-based SQL Agent** (`SQLAlchemy` + `LangChain`).
+  2. **Direct OpenAI Orchestration** (`pyodbc` + `openai`).
+* **Schema Extraction**: Extract schema metadata and generate JSON/Markdown/CSV artifacts.
+* **Streamlit UI** for interactive querying.
+* **Conversation History Support** in the v2 LangChain version.
 
 ---
 
@@ -24,9 +21,11 @@ Two versions of the application are included, with the same core functionality b
 
 ```
 .
-├── SQL_Alchemy_Langchain_Approach.py   # Initial version (no chat history retention)
-├── sql_alchemy_v2.py                   # Enhanced UI with chat history
-├── schema_extractor.py                 # Utility for schema extraction & documentation
+├── SQL_Alchemy_Langchain_Approach.py   # LangChain + SQLAlchemy (basic, no history)
+├── sql_alchemy_v2.py                   # LangChain + SQLAlchemy (chat history enabled)
+├── Pyodbc_OpenAI_ApproachV1.py         # Direct pyodbc + OpenAI (prompt-driven pipeline)
+├── schema_extractor.py                 # Schema extraction + documentation tool
+├── requirements.txt                    # Python dependencies
 ```
 
 ---
@@ -42,22 +41,21 @@ cd <repo-name>
 
 ### 2. Install Dependencies
 
-Ensure Python 3.9+ is installed.
-
 ```bash
 pip install -r requirements.txt
 ```
 
-**Example requirements** (adjust as needed):
+**requirements.txt**
 
 ```text
-sqlalchemy
-pyodbc
-streamlit
-langchain
-langchain-openai
 python-dotenv
+langchain-community
+langchain-openai
 pandas
+pyodbc
+SQLAlchemy
+streamlit
+openai
 ```
 
 ### 3. Configure Environment Variables
@@ -77,21 +75,34 @@ API_KEY=your_openai_api_key
 
 ## ▶️ Usage
 
-### Run the Lakehouse Copilot
-
-```bash
-streamlit run sql_alchemy_v2.py
-```
-
-or
+### Run the LangChain Copilot
 
 ```bash
 streamlit run SQL_Alchemy_Langchain_Approach.py
 ```
 
-* Enter a **natural language query** in the UI.
+or
+
+```bash
+streamlit run sql_alchemy_v2.py
+```
+
+* Enter a **natural language query** in the Streamlit UI.
 * The agent translates it into SQL, executes it, and returns the result.
-* The **v2 version** keeps chat history for context-aware Q\&A.
+* The **v2 version** retains conversation history for context-aware Q\&A.
+
+### Run the PyODBC + OpenAI Approach
+
+```bash
+streamlit run Pyodbc_OpenAI_ApproachV1.py
+```
+
+This version follows a **multi-step pipeline**:
+
+1. **Prompt Optimizer** → Refines the raw query.
+2. **SQL Generator** → Produces optimized T-SQL.
+3. **Executor** → Runs the query via `pyodbc`.
+4. **Answer Composer** → Converts raw results into a business-friendly summary.
 
 ### Run the Schema Extractor
 
@@ -99,10 +110,10 @@ streamlit run SQL_Alchemy_Langchain_Approach.py
 python schema_extractor.py
 ```
 
-This generates:
+Outputs:
 
-* `schema.json` – Full schema metadata.
-* `schema.md` – Human-readable Markdown report.
+* `schema.json` – Machine-readable schema.
+* `schema.md` – Human-readable schema report.
 * `columns.csv` – Flattened column inventory.
 
 ---
@@ -117,19 +128,20 @@ This generates:
 
 ## 🛠️ Tech Stack
 
-* **[SQLAlchemy](https://www.sqlalchemy.org/)** – Database connection and query execution.
-* **[LangChain](https://www.langchain.com/)** – LLM orchestration and SQL Agent.
-* **[OpenAI API](https://platform.openai.com/)** – Natural language processing.
-* **[Streamlit](https://streamlit.io/)** – Lightweight UI.
-* **[PyODBC](https://github.com/mkleehammer/pyodbc)** – SQL Server connectivity.
+* **LangChain** (SQL Agent orchestration).
+* **SQLAlchemy** + **PyODBC** (SQL Server connectivity).
+* **OpenAI API** (LLM reasoning).
+* **Streamlit** (UI).
+* **Pandas** (schema & data handling).
 
 ---
 
 ## 🔮 Future Enhancements
 
-* Add role-based access controls for queries.
-* Integrate with other Lakehouse engines (e.g., Delta, Fabric native).
-* Expand to support multimodal outputs (charts, tables, summaries).
+* Unified orchestration between LangChain and PyODBC approaches.
+* Role-based query authorization.
+* Native Fabric Lakehouse connectors.
+* Multimodal outputs (tables + charts).
 
 ---
 
@@ -138,5 +150,3 @@ This generates:
 This project is licensed under the MIT License.
 
 ---
-
-Would you like me to also create a **ready-to-use `requirements.txt`** file from your uploaded code so you don’t have to manually compile dependencies?
