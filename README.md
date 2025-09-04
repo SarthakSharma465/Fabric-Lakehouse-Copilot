@@ -1,4 +1,4 @@
-# Datasonic Lakehouse Copilot
+# Fabric Lakehouse Copilot
 
 This repository provides multiple approaches for building a **Data Agent on top of a Fabric Lakehouse**, enabling **natural language querying** for both business and technical users. By combining **SQLAlchemy**, **LangChain Agents**, **OpenAI API**, and direct `pyodbc` calls, users can ask questions in plain English and get SQL-driven answers from their data.
 
