@@ -1,0 +1,8 @@
+python-dotenv
+langchain-community
+langchain-openai
+pandas
+pyodbc
+SQLAlchemy
+streamlit
+openai
