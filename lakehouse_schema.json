@@ -1,7 +1,7 @@
 {
   "generated_at_utc": "2025-08-26T12:29:48Z",
-  "server": "77igns4c4tquvpkcugm4f6ldka-fwtjmerwp2aujjmgnbxi2symzq.datawarehouse.fabric.microsoft.com",
-  "database": "GoldLakehouse",
+  "server": "",
+  "database": "",
   "incomplete": true,
   "warnings": [
     "Row counts unavailable via sys.dm_db_partition_stats: Execution failed on sql '\n    SELECT \n        p.object_id,\n        SUM(CASE WHEN p.index_id IN (0,1) THEN p.row_count ELSE 0 END) AS row_count\n    FROM sys.dm_db_partition_stats AS p\n    GROUP BY p.object_id;\n    ': ('42000', \"[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]DMV (Dynamic Management View) 'dm_db_partition_stats' is not supported. (15871) (SQLExecDirectW)\")"
@@ -1850,4 +1850,5 @@
       ]
     }
   ]
+
 }
